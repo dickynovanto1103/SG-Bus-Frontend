@@ -1,9 +1,4 @@
-var app = new Vue({
-    el: "#app",
-    data: {
-        name: "dicky1"
-    }
-})
+import app from "main.js"
 
 var request = new XMLHttpRequest()
 
@@ -22,3 +17,5 @@ request.onload = function() {
 }
 
 request.send()
+
+var data = 
