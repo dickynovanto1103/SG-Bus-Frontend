@@ -8,7 +8,7 @@
 var val = ""
 var request = new XMLHttpRequest()
 
-request.open('GET', "http://localhost:8081/nextBusStop", false)
+request.open('POST', "http://localhost:8081/nextBusStop", false)
 
 request.onload = function() {
     var data = JSON.parse(this.response)
@@ -23,7 +23,8 @@ request.onload = function() {
     }
 }
 
-request.send()
+request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+request.send("busStopCode=19091")
 
 export default {
   name: 'HelloWorld',
