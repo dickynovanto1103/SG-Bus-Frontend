@@ -17,5 +17,3 @@ request.onload = function() {
 }
 
 request.send()
-
-var data = 
