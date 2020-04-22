@@ -6,46 +6,31 @@
 </template>
 
 <script>
-var val1 = ""
-var request = new XMLHttpRequest()
+function doRequest(busStopCode) {
+  var val = ""
+  var request = new XMLHttpRequest()
+  request.open('POST', "http://localhost:8081/nextBusStop", false)
 
-request.open('POST', "http://localhost:8081/nextBusStop", false)
+  request.onload = function() {
+      var data = JSON.parse(this.response)
 
-request.onload = function() {
-    var data = JSON.parse(this.response)
+      if (request.status == 200) {
+          console.log("success in getting data, data:", data)
+          val = data["Services"][0]["NextBus"]["EstimatedArrival"]
+          console.log("val: ", val)
+      } else {
+          console.log("error in getting response, request status: ", request.status)
+          val = "fail"
+      }
+  }
 
-    if (request.status == 200) {
-        console.log("success in getting data, data:", data)
-        val1 = data["Services"][0]["NextBus"]["EstimatedArrival"]
-        console.log("val: ", val1)
-    } else {
-        console.log("error in getting response, request status: ", request.status)
-        val1 = "fail"
-    }
+  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+  request.send("busStopCode="+busStopCode)
+  return val
 }
 
-request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-request.send("busStopCode=19091")
-
-var val2 = ""
-
-request.open('POST', "http://localhost:8081/nextBusStop", false)
-
-request.onload = function() {
-    var data = JSON.parse(this.response)
-
-    if (request.status == 200) {
-        console.log("success in getting data, data:", data)
-        val2 = data["Services"][0]["NextBus"]["EstimatedArrival"]
-        console.log("val: ", val2)
-    } else {
-        console.log("error in getting response, request status: ", request.status)
-        val2 = "fail"
-    }
-}
-
-request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-request.send("busStopCode=18101")
+var val1 = doRequest("19091")
+var val2 = doRequest("18101")
 
 export default {
   name: 'HelloWorld',
