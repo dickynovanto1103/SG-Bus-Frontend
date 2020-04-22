@@ -1,11 +1,12 @@
 <template>
   <div class="hello">
-    <h1>166: Next bus arrival: {{ msg }}</h1>
+    <h1>166 Departure: Next bus arrival: {{ msg1 }}</h1>
+    <h1>166 Go Home: Next bus arrival: {{ msg2 }}</h1>
   </div>
 </template>
 
 <script>
-var val = ""
+var val1 = ""
 var request = new XMLHttpRequest()
 
 request.open('POST', "http://localhost:8081/nextBusStop", false)
@@ -15,22 +16,43 @@ request.onload = function() {
 
     if (request.status == 200) {
         console.log("success in getting data, data:", data)
-        val = data["Services"][0]["NextBus"]["EstimatedArrival"]
-        console.log("val: ", val)
+        val1 = data["Services"][0]["NextBus"]["EstimatedArrival"]
+        console.log("val: ", val1)
     } else {
         console.log("error in getting response, request status: ", request.status)
-        val = "fail"
+        val1 = "fail"
     }
 }
 
 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
 request.send("busStopCode=19091")
 
+var val2 = ""
+
+request.open('POST', "http://localhost:8081/nextBusStop", false)
+
+request.onload = function() {
+    var data = JSON.parse(this.response)
+
+    if (request.status == 200) {
+        console.log("success in getting data, data:", data)
+        val2 = data["Services"][0]["NextBus"]["EstimatedArrival"]
+        console.log("val: ", val2)
+    } else {
+        console.log("error in getting response, request status: ", request.status)
+        val2 = "fail"
+    }
+}
+
+request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+request.send("busStopCode=18101")
+
 export default {
   name: 'HelloWorld',
   data: function() {
     return {
-      msg: val,
+      msg1: val1,
+      msg2: val2,
     }
   }
 }
