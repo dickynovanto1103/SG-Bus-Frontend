@@ -16,7 +16,7 @@ function doRequest(busStopCode, busCode) {
   var val = ""
   var request = new XMLHttpRequest()
   var ip = process.env.VUE_APP_IP
-  var addr = "http://" + ip + ":8081/"
+  var addr = "http://" + ip + ":8082/nextBusStop"
   console.log("addr: " + addr)
   request.open('POST', addr, false)
 
